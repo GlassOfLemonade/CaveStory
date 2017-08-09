@@ -11,7 +11,10 @@ namespace CaveStory
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
+        SpriteFont spriteFont;
+
+        private FrameCounter _frameCounter = new FrameCounter();
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,6 +44,7 @@ namespace CaveStory
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            spriteFont = Content.Load<SpriteFont>("SpriteFont");
         }
 
         /// <summary>
@@ -73,10 +77,17 @@ namespace CaveStory
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _frameCounter.Update(deltaTime);
+
+            var fps = string.Format("FPS: {0:#0.00}", _frameCounter.CurrentFramesPerSecond);
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.DrawString(spriteFont, fps, new Vector2(1,1), Color.White);
 
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

@@ -15,3 +15,4 @@ C:\Users\kevin\Documents\Visual Studio 2017\Projects\CaveStory\CaveStory\bin\Des
 C:\Users\kevin\Documents\Visual Studio 2017\Projects\CaveStory\CaveStory\obj\Debug\CaveStory.csprojResolveAssemblyReference.cache
 C:\Users\kevin\Documents\Visual Studio 2017\Projects\CaveStory\CaveStory\obj\Debug\CaveStory.exe
 C:\Users\kevin\Documents\Visual Studio 2017\Projects\CaveStory\CaveStory\obj\Debug\CaveStory.pdb
+C:\Users\kevin\Documents\Visual Studio 2017\Projects\CaveStory\CaveStory\bin\DesktopGL\AnyCPU\Debug\Content\SpriteFont.xnb
