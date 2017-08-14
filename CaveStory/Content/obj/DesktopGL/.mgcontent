@@ -5,5 +5,8 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/kevin/Documents/Visual Studio 2017/Projects/CaveStory/CaveStory/Content/SpriteFont.spritefont</File>
+    <File>C:/Users/kevin/Documents/Visual Studio 2017/Projects/CaveStory/CaveStory/Content/Sprites/bkBlue.bmp</File>
+    <File>C:/Users/kevin/Documents/Visual Studio 2017/Projects/CaveStory/CaveStory/Content/Sprites/MyChar.bmp</File>
+    <File>C:/Users/kevin/Documents/Visual Studio 2017/Projects/CaveStory/CaveStory/Content/Sprites/PrtCave.bmp</File>
   </SourceFiles>
 </SourceFileCollection>

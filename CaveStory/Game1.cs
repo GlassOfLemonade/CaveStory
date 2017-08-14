@@ -12,6 +12,7 @@ namespace CaveStory
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
+        Sprite sprite;
 
         private FrameCounter _frameCounter = new FrameCounter();
 
@@ -19,6 +20,13 @@ namespace CaveStory
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[0];
+            Window.IsBorderless = true;
+            Window.Position = new Point(screen.Bounds.X, screen.Bounds.Y);
+            graphics.PreferredBackBufferWidth = 640;
+            graphics.PreferredBackBufferHeight = 480;
+            graphics.IsFullScreen = false;
         }
 
         /// <summary>
@@ -45,6 +53,8 @@ namespace CaveStory
 
             // TODO: use this.Content to load your game content here
             spriteFont = Content.Load<SpriteFont>("SpriteFont");
+            var spriteSheet = Content.Load<Texture2D>("Sprites\\MyChar");
+            sprite = new Sprite(spriteSheet, 0, 0, 32, 32); // takes first sprite at position 0,0. with sprite being 32x32
         }
 
         /// <summary>
@@ -86,7 +96,7 @@ namespace CaveStory
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.DrawString(spriteFont, fps, new Vector2(1,1), Color.White);
-
+            sprite.Draw(spriteBatch, 320, 240);
             spriteBatch.End();
             base.Draw(gameTime);
         }
