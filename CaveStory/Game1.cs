@@ -12,7 +12,9 @@ namespace CaveStory
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
-        Sprite sprite;
+        AnimatedSprite sprite;
+
+        public const int kTileSize = 32;
 
         private FrameCounter _frameCounter = new FrameCounter();
 
@@ -52,9 +54,10 @@ namespace CaveStory
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            spriteFont = Content.Load<SpriteFont>("SpriteFont");
             var spriteSheet = Content.Load<Texture2D>("Sprites\\MyChar");
-            sprite = new Sprite(spriteSheet, 0, 0, 32, 32); // takes first sprite at position 0,0. with sprite being 32x32
+            spriteFont = Content.Load<SpriteFont>("SpriteFont");
+            
+            sprite = new AnimatedSprite(spriteSheet, 0, 0, kTileSize, kTileSize, 15, 3);
         }
 
         /// <summary>
@@ -77,7 +80,7 @@ namespace CaveStory
                 Exit();
 
             // TODO: Add your update logic here
-
+            sprite.Update(gameTime);
             base.Update(gameTime);
         }
 
