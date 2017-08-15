@@ -13,6 +13,7 @@ namespace CaveStory
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
         AnimatedSprite sprite;
+        Input input;
 
         public const int kTileSize = 32;
 
@@ -40,7 +41,7 @@ namespace CaveStory
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            input = new Input();
             base.Initialize();
         }
 
@@ -76,11 +77,17 @@ namespace CaveStory
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //Exit();
 
             // TODO: Add your update logic here
+            input.BeginInputFrame();
+            if (input.KeyPressed(Keys.Escape))
+                Exit();
+
             sprite.Update(gameTime);
+
+            input.EndInputFrame();
             base.Update(gameTime);
         }
 
