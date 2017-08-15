@@ -39,5 +39,10 @@ namespace CaveStory
         {
             return keyboardState.IsKeyUp(key);
         }
+
+        public bool KeyHeld(Keys key)
+        {
+            return keyboardState.IsKeyDown(key) && prevKeyboardState.IsKeyDown(key);
+        }
     }
 }

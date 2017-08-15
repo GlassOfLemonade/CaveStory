@@ -12,10 +12,10 @@ namespace CaveStory
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
-        AnimatedSprite sprite;
+        Player player;
         Input input;
 
-        public const int kTileSize = 32;
+        
 
         private FrameCounter _frameCounter = new FrameCounter();
 
@@ -58,7 +58,7 @@ namespace CaveStory
             var spriteSheet = Content.Load<Texture2D>("Sprites\\MyChar");
             spriteFont = Content.Load<SpriteFont>("SpriteFont");
             
-            sprite = new AnimatedSprite(spriteSheet, 0, 0, kTileSize, kTileSize, 15, 3);
+            player = new Player(320, 240, new AnimatedSprite(spriteSheet, 0, 0, Constants.kTileSize, Constants.kTileSize, 15, 3));
         }
 
         /// <summary>
@@ -84,8 +84,14 @@ namespace CaveStory
             input.BeginInputFrame();
             if (input.KeyPressed(Keys.Escape))
                 Exit();
+            /* this section will need some abstraction later */
+            if (input.KeyHeld(Keys.Left) && input.KeyHeld(Keys.Right)) { player.StopMoving(); }
+            else if (input.KeyHeld(Keys.Left)) { player.StartMovingLeft(); }
+            else if (input.KeyHeld(Keys.Right)) { player.StartMovingRight(); }
+            else { player.StopMoving(); }
 
-            sprite.Update(gameTime);
+            player.Update(gameTime);
+            
 
             input.EndInputFrame();
             base.Update(gameTime);
@@ -106,7 +112,7 @@ namespace CaveStory
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.DrawString(spriteFont, fps, new Vector2(1,1), Color.White);
-            sprite.Draw(spriteBatch, 320, 240);
+            player.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

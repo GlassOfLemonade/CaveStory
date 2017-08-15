@@ -31,11 +31,11 @@ namespace CaveStory
                 _ElapsedTime = 0;
                 if (_CurrentFrame < _NumFrames)
                 {
-                    sourceRect.X += Game1.kTileSize;
+                    sourceRect.X += Constants.kTileSize;
                 }
                 else // source rect is at number of frames
                 {
-                    sourceRect.X -= Game1.kTileSize * (_NumFrames - 1);
+                    sourceRect.X -= Constants.kTileSize * (_NumFrames - 1);
                     _CurrentFrame = 0;
                 }
             }
