@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CaveStory
@@ -8,9 +9,10 @@ namespace CaveStory
         protected Texture2D texture;
         protected Rectangle sourceRect;
 
-        public Sprite(Texture2D texture, int x, int y, int width, int height)
+        public Sprite(ContentManager Content, string FilePath, int x, int y, int width, int height)
         {
-            this.texture = texture;
+            // we are going to pass the contentmanager around so we can load these sheets on the fly
+            this.texture = Content.Load<Texture2D>(FilePath);
             this.sourceRect= new Rectangle(x, y, width, height);
         }
 

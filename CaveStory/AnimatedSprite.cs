@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CaveStory
@@ -10,10 +11,9 @@ namespace CaveStory
         private int _CurrentFrame;
         private int _ElapsedTime; // elapsed time since last frame change
 
-        public AnimatedSprite(Texture2D texture, int x, int y, int width, int height, int fps, int num_frames)
-            : base(texture, x, y, width, height)
+        public AnimatedSprite(ContentManager Content, string FilePath, int x, int y, int width, int height, int fps, int num_frames)
+            : base(Content, FilePath, x, y, width, height)
         {
-            this.texture = texture;
             this.sourceRect = new Rectangle(x, y, width, height);
             _FrameTime = 1000 / fps;
             _NumFrames = num_frames;
