@@ -27,6 +27,7 @@ namespace CaveStory
         }
         public void EndInputFrame()
         {
+            /* At the end of every update loop is the end of an input frame, saves the state of the input frame that just ended.*/
             prevKeyboardState = keyboardState;
         }
 

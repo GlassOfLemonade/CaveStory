@@ -58,7 +58,7 @@ namespace CaveStory
             // var spriteSheet = Content.Load<Texture2D>("Sprites\\MyChar");
             spriteFont = Content.Load<SpriteFont>("SpriteFont");
             
-            player = new Player(320, 240, new AnimatedSprite(Content, "Sprites\\MyChar", 0, 0, Constants.kTileSize, Constants.kTileSize, 15, 3));
+            player = new Player(Content, 320, 240);
         }
 
         /// <summary>
