@@ -90,6 +90,18 @@ namespace CaveStory
             else if (input.KeyHeld(Keys.Right)) { player.StartMovingRight(); }
             else { player.StopMoving(); }
 
+            #region Player Jump Logic
+            if (input.KeyPressed(Keys.Z))
+            {
+                // player start jump
+                player.StartJump();
+            }
+            else if (input.KeyReleased(Keys.Z))
+            {
+                // player stop jump
+                player.StopJump();
+            }
+            #endregion
             player.Update(gameTime);
             
 
