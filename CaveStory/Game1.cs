@@ -15,8 +15,6 @@ namespace CaveStory
         Player player;
         Input input;
 
-        
-
         private FrameCounter _frameCounter = new FrameCounter();
 
         public Game1()
@@ -85,10 +83,19 @@ namespace CaveStory
             if (input.KeyPressed(Keys.Escape))
                 Exit();
             /* this section will need some abstraction later */
+            #region Horizontal
             if (input.KeyHeld(Keys.Left) && input.KeyHeld(Keys.Right)) { player.StopMoving(); }
             else if (input.KeyHeld(Keys.Left)) { player.StartMovingLeft(); }
             else if (input.KeyHeld(Keys.Right)) { player.StartMovingRight(); }
             else { player.StopMoving(); }
+            #endregion
+
+            #region Vertical
+            if (input.KeyHeld(Keys.Up) && input.KeyHeld(Keys.Down)) { player.LookHorizontal(); }
+            else if (input.KeyHeld(Keys.Up)) { player.LookUp(); }
+            else if (input.KeyHeld(Keys.Down)) { player.LookDown(); }
+            else { player.LookHorizontal(); }
+            #endregion
 
             #region Player Jump Logic
             if (input.KeyPressed(Keys.Z))

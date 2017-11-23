@@ -14,10 +14,9 @@ namespace CaveStory
         private int _x, _y;
         private float _accelerationX;
         private float _velocityX;
-        private float _accelerationY;
         private float _velocityY;
 
-        private int jumpTimer = 1500;
+        //private int jumpTimer = 1500;
         private bool onGround;
         public bool OnGround
         {
@@ -26,18 +25,30 @@ namespace CaveStory
 
         Jump jump;
 
-        SpriteState.FacingDirection facingDirection; 
+        SpriteState.FacingDirection facingDirection;
+        SpriteState.MotionType motionType;
+        SpriteState.VerticalLooking verticalLooking;
 
         Dictionary<SpriteState, Sprite> sprites;
 
-        private SpriteState spriteState;
         public SpriteState SpriteState
         {
             get
             {
-                return new SpriteState(_accelerationX == 0.0f ? SpriteState.MotionType.STANDING : SpriteState.MotionType.WALKING,
-                    facingDirection);
+                return getSpriteState();
             }
+        }
+        private SpriteState getSpriteState()
+        {
+            if (OnGround) // on ground
+            {
+                motionType = _accelerationX == 0.0f ? SpriteState.MotionType.STANDING : SpriteState.MotionType.WALKING;
+            }
+            else // in air
+            {
+                motionType = _velocityY < 0.0f ? SpriteState.MotionType.JUMPING : SpriteState.MotionType.FALLING;
+            }
+            return new SpriteState(motionType, facingDirection, verticalLooking);
         }
         
 
@@ -51,7 +62,7 @@ namespace CaveStory
             _velocityY = 0.0f;
             _accelerationX = 0.0f;
             facingDirection = SpriteState.FacingDirection.LEFT;
-
+            verticalLooking = SpriteState.VerticalLooking.HORIZONTAL;
             jump = new Jump();
             onGround = false;
         }
@@ -112,6 +123,21 @@ namespace CaveStory
         }
         #endregion
 
+        #region Vertical Looking Handlers
+        public void LookUp()
+        {
+            verticalLooking = SpriteState.VerticalLooking.UP;
+        }
+        public void LookDown()
+        {
+            verticalLooking = SpriteState.VerticalLooking.DOWN;
+        }
+        public void LookHorizontal()
+        {
+            verticalLooking = SpriteState.VerticalLooking.HORIZONTAL;
+        }
+        #endregion
+
         #region Jump Methods
         public void StartJump()
         {
@@ -138,20 +164,80 @@ namespace CaveStory
         }
         #endregion
 
-        public void InitializeSprites(ContentManager content)
+        #region Sprite Work
+        private void InitializeSprites(ContentManager content)
         {
-            // standing, facing left
-            sprites.Add(new SpriteState(SpriteState.MotionType.STANDING, SpriteState.FacingDirection.LEFT), 
-                new Sprite(content, "Sprites/MyChar", 0, 0, Constants.kTileSize, Constants.kTileSize));
-            // standing, facing right
-            sprites.Add(new SpriteState(SpriteState.MotionType.STANDING, SpriteState.FacingDirection.RIGHT),
-                new Sprite(content, "Sprites/MyChar", 0, Constants.kTileSize, Constants.kTileSize, Constants.kTileSize));
-            // walking, facing left
-            sprites.Add(new SpriteState(SpriteState.MotionType.WALKING, SpriteState.FacingDirection.LEFT),
-                new AnimatedSprite(content, "Sprites/MyChar", 0, 0, Constants.kTileSize, Constants.kTileSize, 15, 3));
-            // walking, facing right
-            sprites.Add(new SpriteState(SpriteState.MotionType.WALKING, SpriteState.FacingDirection.RIGHT),
-                new AnimatedSprite(content, "Sprites/MyChar", 0, Constants.kTileSize, Constants.kTileSize, Constants.kTileSize, 15, 3));
+            // for every motion type
+            for (SpriteState.MotionType motionType = 0; motionType < SpriteState.MotionType.LAST_MOTION; motionType++)
+            {
+                // for every facing direction
+                for (SpriteState.FacingDirection facingDirection = 0; facingDirection < SpriteState.FacingDirection.LAST_FACING; facingDirection++)
+                {
+                    // for every vertical looking
+                    for (SpriteState.VerticalLooking verticalLooking = 0; verticalLooking < SpriteState.VerticalLooking.LAST_VERTICAL; verticalLooking++)
+                    {
+                        InitializeSprite(content, new SpriteState(motionType, facingDirection, verticalLooking));
+                    }
+                }
+            }
         }
+
+        private void InitializeSprite(ContentManager content, SpriteState spriteState)
+        {
+            #region Source Rectangle Horizontal Index
+            int sourceX = 0; // have to initialize to 0
+            switch (spriteState.motionType)
+            {
+                case SpriteState.MotionType.WALKING:
+                    sourceX = Constants.kWalkFrame * Constants.kTileSize;
+                    break;
+                case SpriteState.MotionType.STANDING:
+                    sourceX = Constants.kStandFrame * Constants.kTileSize;
+                    break;
+                case SpriteState.MotionType.JUMPING:
+                    sourceX = Constants.kJumpFrame * Constants.kTileSize;
+                    break;
+                case SpriteState.MotionType.FALLING:
+                    sourceX = Constants.kFallFrame * Constants.kTileSize;
+                    break;
+                case SpriteState.MotionType.LAST_MOTION:
+                    break;
+            }
+            sourceX = spriteState.verticalLooking == SpriteState.VerticalLooking.UP ?
+                      sourceX + (Constants.kLookingUpOffset * Constants.kTileSize) : sourceX;
+            #endregion
+            #region Source Rectangle Vertical Index
+            // characterframe*tilesize if direction is left, or (characterframe+1)*tilesize if direction is right
+            int sourceY = (spriteState.facingDirection == SpriteState.FacingDirection.LEFT) ? 
+                Constants.kCharacterFrame * Constants.kTileSize : (Constants.kCharacterFrame + 1) * Constants.kTileSize;
+            #endregion
+
+            if (spriteState.motionType == SpriteState.MotionType.WALKING)
+            {
+                // create animated sprite
+                sprites.Add(spriteState,
+                new AnimatedSprite(content, Constants.kSpriteFilePath, sourceX, sourceY, Constants.kTileSize, Constants.kTileSize, 15, 3));
+            }
+            else
+            {
+                if (spriteState.verticalLooking == SpriteState.VerticalLooking.DOWN)
+                {
+                    if (spriteState.motionType == SpriteState.MotionType.STANDING)
+                    {
+                        // if standing, change source x to index 7 or 8th sprite
+                        sourceX = ((Constants.kLookingDownOffset + 1) * Constants.kTileSize);
+                    }
+                    else if (spriteState.motionType == SpriteState.MotionType.FALLING || spriteState.motionType == SpriteState.MotionType.JUMPING)
+                    {
+                        // if jumping or falling, change source x to index 6 or 7th sprite
+                        sourceX = (Constants.kLookingDownOffset * Constants.kTileSize);
+                    }
+                }
+                // create a static sprite
+                sprites.Add(spriteState,
+                new Sprite(content, Constants.kSpriteFilePath, sourceX, sourceY, Constants.kTileSize, Constants.kTileSize));
+            }
+        }
+        #endregion
     }
 }
