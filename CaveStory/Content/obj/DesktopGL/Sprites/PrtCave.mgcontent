@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/kevin/Documents/Visual Studio 2017/Projects/CaveStory/CaveStory/Content/Sprites/PrtCave.bmp</SourceFile>
-  <SourceTime>2017-08-09T16:40:05.0147497-07:00</SourceTime>
-  <DestFile>C:/Users/kevin/Documents/Visual Studio 2017/Projects/CaveStory/CaveStory/Content/bin/DesktopGL/Sprites/PrtCave.xnb</DestFile>
-  <DestTime>2017-08-09T16:42:19.5414441-07:00</DestTime>
+  <SourceFile>C:/Users/Kevin/Documents/GitHub/CaveStory/CaveStory/Content/Sprites/PrtCave.bmp</SourceFile>
+  <SourceTime>2017-11-28T20:28:49.2057332-08:00</SourceTime>
+  <DestFile>C:/Users/Kevin/Documents/GitHub/CaveStory/CaveStory/Content/bin/DesktopGL/Sprites/PrtCave.xnb</DestFile>
+  <DestTime>2017-11-29T20:45:34.5609444-08:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T07:05:36-08:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

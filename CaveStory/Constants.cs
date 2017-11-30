@@ -28,5 +28,6 @@ namespace CaveStory
         public const int kLookingDownOffset = 6;
         // strings
         public const string kSpriteFilePath = "Sprites/MyChar";
+        public const string kCaveFilePath = "Sprites/PrtCave";
     }
 }

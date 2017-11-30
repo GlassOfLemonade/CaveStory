@@ -14,6 +14,7 @@ namespace CaveStory
         SpriteFont spriteFont;
         Player player;
         Input input;
+        Map map;
 
         private FrameCounter _frameCounter = new FrameCounter();
 
@@ -57,6 +58,7 @@ namespace CaveStory
             spriteFont = Content.Load<SpriteFont>("SpriteFont");
             
             player = new Player(Content, 320, 240);
+            map = Map.MakeTestMap(Content);
         }
 
         /// <summary>
@@ -110,6 +112,7 @@ namespace CaveStory
             }
             #endregion
             player.Update(gameTime);
+            map.Update(gameTime);
             
 
             input.EndInputFrame();
@@ -132,6 +135,7 @@ namespace CaveStory
             spriteBatch.Begin();
             spriteBatch.DrawString(spriteFont, fps, new Vector2(1,1), Color.White);
             player.Draw(spriteBatch);
+            map.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }
