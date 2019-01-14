@@ -16,6 +16,10 @@ namespace CaveStory
         private float _velocityX;
         private float _velocityY;
 
+        // collision rects
+        private Rectangle kCollisionRectX = new Rectangle(6,10,20,12);
+        private Rectangle kCollisionRectY = new Rectangle(10,2,12,30);
+
         //private int jumpTimer = 1500;
         private bool onGround;
         public bool OnGround
@@ -50,7 +54,48 @@ namespace CaveStory
             }
             return new SpriteState(motionType, facingDirection, verticalLooking);
         }
-        
+
+        // need to study a bit more on this section, the math is making sense but I am not grasping the delta values and how they would affect the collision handling
+        #region Collision Rectangles
+        Rectangle bottomCollision(int delta)
+        {
+            Rectangle bottomColRect = new Rectangle(_x + kCollisionRectY.Left, _y + kCollisionRectY.Top + (kCollisionRectY.Height / 2), kCollisionRectY.Width, kCollisionRectY.Height / 2);
+            if (delta >= 0)
+            {
+                bottomColRect.Height += delta;
+            }
+            return bottomColRect;
+        }
+        Rectangle topCollision(int delta)
+        {
+            Rectangle topColRect = new Rectangle(_x + kCollisionRectY.Left, _y + kCollisionRectY.Top, kCollisionRectY.Width, kCollisionRectY.Height / 2);
+            if (delta <= 0)
+            {
+                topColRect.Y += delta;
+                topColRect.Height -= delta;
+            }
+            return topColRect;
+        }
+        Rectangle leftCollision(int delta)
+        {
+            Rectangle leftColRect = new Rectangle(_x + kCollisionRectX.Left, _y + kCollisionRectX.Top, kCollisionRectX.Width / 2, kCollisionRectX.Height);
+            if (delta <= 0)
+            {
+                leftColRect.X += delta;
+                leftColRect.Width -= delta;
+            }
+            return leftColRect;
+        }
+        Rectangle rightCollision(int delta)
+        {
+            Rectangle rightColRect = new Rectangle(_x + kCollisionRectX.Left + (kCollisionRectX.Width/2), _y + kCollisionRectX.Top, kCollisionRectX.Width / 2, kCollisionRectX.Height);
+            if (delta >= 0)
+            {
+                rightColRect.Width += delta;
+            }
+            return rightColRect;
+        }
+        #endregion
 
         public Player(ContentManager Content,int x, int y)
         {
@@ -67,30 +112,57 @@ namespace CaveStory
             onGround = false;
         }
         #region Monogame Methods
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Map map)
         {
             sprites[SpriteState].Update(gameTime);
             jump.Update(gameTime);
 
             #region X position update
+            UpdateX(gameTime, map);
+            #endregion
+
+            #region Y position update
+            UpdateY(gameTime, map);
+            #endregion
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            sprites[SpriteState].Draw(spriteBatch, _x, _y);
+        }
+        /// <summary>
+        /// Helper Update method for X axis
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="map"></param>
+        private void UpdateX(GameTime gameTime, Map map)
+        {
             _x += (int)Math.Round(_velocityX * gameTime.ElapsedGameTime.Milliseconds); // rounding not truncating
             _velocityX += _accelerationX * gameTime.ElapsedGameTime.Milliseconds;
             if (_accelerationX < 0.0f) { _velocityX = Math.Max(_velocityX, -Constants.kMaxSpeedX); } // left movement
             else if (_accelerationX > 0.0f) { _velocityX = Math.Min(_velocityX, Constants.kMaxSpeedX); } // right movement
             else if (OnGround) { _velocityX *= Constants.kSlowdownFactor; } // not moving
-            #endregion
-
-            #region Y position update
-            _y += (int)Math.Round(_velocityY * gameTime.ElapsedGameTime.Milliseconds);
+        }
+        /// <summary>
+        /// Helper Update method for Y axis
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="map"></param>
+        private void UpdateY(GameTime gameTime, Map map)
+        {
+            // Update Velocity
             if (jump.Active)
             {
                 // don't do anything
             }
             else
             {
-                _velocityY = Math.Min(_velocityY + (Constants.kGravity * gameTime.ElapsedGameTime.Milliseconds), 
+                _velocityY = Math.Min(_velocityY + (Constants.kGravity * gameTime.ElapsedGameTime.Milliseconds),
                                        Constants.kMaxSpeedY);
             }
+
+            int delta = (int)Math.Round(_velocityY * gameTime.ElapsedGameTime.Milliseconds);
+            _y += (int)Math.Round(_velocityY * gameTime.ElapsedGameTime.Milliseconds); // gravity
+
             /* Temporary Ground Collision: To Be Removed */
             if (_y > 320)
             {
@@ -98,11 +170,6 @@ namespace CaveStory
                 _velocityY = 0.0f;
             }
             onGround = _y == 320;
-            #endregion
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            sprites[SpriteState].Draw(spriteBatch, _x, _y);
         }
         #endregion
 

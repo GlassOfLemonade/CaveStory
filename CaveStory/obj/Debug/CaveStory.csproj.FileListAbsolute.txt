@@ -37,7 +37,8 @@ C:\Users\Kevin\Documents\GitHub\CaveStory\CaveStory\bin\DesktopGL\AnyCPU\Debug\x
 C:\Users\Kevin\Documents\GitHub\CaveStory\CaveStory\bin\DesktopGL\AnyCPU\Debug\CaveStory.exe
 C:\Users\Kevin\Documents\GitHub\CaveStory\CaveStory\bin\DesktopGL\AnyCPU\Debug\CaveStory.pdb
 C:\Users\Kevin\Documents\GitHub\CaveStory\CaveStory\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
-C:\Users\Kevin\Documents\GitHub\CaveStory\CaveStory\obj\Debug\CaveStory.csprojResolveAssemblyReference.cache
 C:\Users\Kevin\Documents\GitHub\CaveStory\CaveStory\obj\Debug\CaveStory.csproj.CoreCompileInputs.cache
 C:\Users\Kevin\Documents\GitHub\CaveStory\CaveStory\obj\Debug\CaveStory.exe
 C:\Users\Kevin\Documents\GitHub\CaveStory\CaveStory\obj\Debug\CaveStory.pdb
+C:\Users\Kevin\Documents\GitHub\CaveStory\CaveStory\obj\Debug\CaveStory.csprojAssemblyReference.cache
+C:\Users\Kevin\Documents\GitHub\CaveStory\CaveStory\obj\Debug\CaveStory.csproj.CopyComplete
